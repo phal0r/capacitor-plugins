@@ -7,6 +7,7 @@ CAP_PLUGIN(LocalNotificationsPlugin, "LocalNotifications",
     CAP_PLUGIN_METHOD(checkPermissions, CAPPluginReturnPromise);
     CAP_PLUGIN_METHOD(cancel, CAPPluginReturnPromise);
     CAP_PLUGIN_METHOD(getPending, CAPPluginReturnPromise);
+    CAP_PLUGIN_METHOD(getActive, CAPPluginReturnPromise);
     CAP_PLUGIN_METHOD(registerActionTypes, CAPPluginReturnPromise);
     CAP_PLUGIN_METHOD(areEnabled, CAPPluginReturnPromise);
     CAP_PLUGIN_METHOD(createChannel, CAPPluginReturnPromise);

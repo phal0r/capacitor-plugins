@@ -1,6 +1,11 @@
 package com.capacitorjs.plugins.localnotifications;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.service.notification.StatusBarNotification;
+
 import com.getcapacitor.Bridge;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
@@ -10,9 +15,12 @@ import com.getcapacitor.PluginHandle;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "LocalNotifications", permissions = @Permission(strings = {}, alias = "display"))
 public class LocalNotificationsPlugin extends Plugin {
@@ -77,7 +85,26 @@ public class LocalNotificationsPlugin extends Plugin {
 
     @PluginMethod
     public void getPending(PluginCall call) {
-        List<LocalNotification> notifications = notificationStorage.getSavedNotifications();
+        List<LocalNotification> allNotifications = notificationStorage.getSavedNotifications();
+        List<LocalNotification> notifications = new ArrayList<>(allNotifications.size());
+        for(LocalNotification notification : allNotifications) {
+            if(notification.isScheduled()) {
+                notifications.add(notification);
+            }
+        }
+        JSObject result = LocalNotification.buildLocalNotificationPendingList(notifications);
+        call.resolve(result);
+    }
+
+    @PluginMethod
+    public void getActive(PluginCall call) {
+        List<LocalNotification> allNotifications = notificationStorage.getSavedNotifications();
+        List<LocalNotification> notifications = new ArrayList<>(allNotifications.size());
+        for(LocalNotification notification : allNotifications) {
+            if(!notification.isScheduled()) {
+                notifications.add(notification);
+            }
+        }
         JSObject result = LocalNotification.buildLocalNotificationPendingList(notifications);
         call.resolve(result);
     }

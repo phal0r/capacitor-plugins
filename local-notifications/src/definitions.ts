@@ -64,6 +64,13 @@ export interface LocalNotificationsPlugin {
   getPending(): Promise<PendingResult>;
 
   /**
+   * Get a list of pending notifications.
+   *
+   * @since 1.1.0
+   */
+  getActive(): Promise<PendingResult>;
+
+  /**
    * Register actions to take when notifications are displayed.
    *
    * Only available for iOS and Android.

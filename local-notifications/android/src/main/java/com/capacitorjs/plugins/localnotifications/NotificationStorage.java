@@ -36,10 +36,10 @@ public class NotificationStorage {
         SharedPreferences storage = getStorage(NOTIFICATION_STORE_ID);
         SharedPreferences.Editor editor = storage.edit();
         for (LocalNotification request : localNotifications) {
-            if (request.isScheduled()) {
+            //if (request.isScheduled()) {
                 String key = request.getId().toString();
                 editor.putString(key, request.getSource());
-            }
+            //}
         }
         editor.apply();
     }

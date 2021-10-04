@@ -170,6 +170,24 @@ public class LocalNotificationsPlugin: CAPPlugin {
     }
 
     /**
+     * Get all active notifications.
+     */
+    @objc func getActive(_ call: CAPPluginCall) {
+        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { (notifications) in
+            CAPLog.print("num of active notifications \(notifications.count)")
+            CAPLog.print(notifications)
+
+            let ret = notifications.compactMap({ [weak self] (notification) -> JSObject? in
+                return self?.notificationDelegationHandler.makePendingNotificationRequestJSObject(notification)
+            })
+
+            call.resolve([
+                "notifications": ret
+            ])
+        })
+    }
+
+    /**
      * Register allowed action types that a notification may present.
      */
     @objc func registerActionTypes(_ call: CAPPluginCall) {

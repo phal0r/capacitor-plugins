@@ -14,8 +14,7 @@ import type {
 
 export class LocalNotificationsWeb
   extends WebPlugin
-  implements LocalNotificationsPlugin
-{
+  implements LocalNotificationsPlugin {
   protected pending: LocalNotificationSchema[] = [];
 
   async createChannel(): Promise<void> {
@@ -49,6 +48,12 @@ export class LocalNotificationsWeb
   async getPending(): Promise<PendingResult> {
     return {
       notifications: this.pending,
+    };
+  }
+
+  async getActive(): Promise<PendingResult> {
+    return {
+      notifications: [],
     };
   }
 
